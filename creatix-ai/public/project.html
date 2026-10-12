@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CreatorHub AI | Content Creator Marketplace</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f7f8fc;
+            color: #252b42;
+        }
+
+        /* NAVBAR */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 7%;
+            background: white;
+            box-shadow: 0 2px 12px #00000008;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            color: #5b5ce2;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #555;
+            margin-left: 22px;
+            font-size: 15px;
+        }
+
+        nav a:hover {
+            color: #5b5ce2;
+        }
+
+        .login-btn {
+            background: #5b5ce2;
+            color: white !important;
+            padding: 11px 18px;
+            border-radius: 8px;
+        }
+
+        /* HERO SECTION */
+        .hero {
+            padding: 75px 8%;
+            text-align: center;
+            background: linear-gradient(135deg, #ededff, #f9f5ff);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 9px 16px;
+            background: white;
+            color: #5b5ce2;
+            border-radius: 30px;
+            margin-bottom: 22px;
+            font-size: 14px;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 span {
+            color: #5b5ce2;
+        }
+
+        .hero p {
+            color: #666;
+            font-size: 18px;
+            line-height: 1.7;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 14px 24px;
+            border: none;
+            border-radius: 9px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .primary {
+            background: #5b5ce2;
+            color: white;
+        }
+
+        .secondary {
+            background: white;
+            color: #5b5ce2;
+            border: 1px solid #5b5ce2;
+        }
+
+        /* STATISTICS */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            padding: 35px 8%;
+            background: white;
+        }
+
+        .stat {
+            text-align: center;
+            padding: 15px;
+        }
+
+        .stat h2 {
+            font-size: 28px;
+            color: #5b5ce2;
+            margin-bottom: 8px;
+        }
+
+        .stat p {
+            color: #777;
+            font-size: 14px;
+        }
+
+        /* GENERAL SECTION */
+        .container {
+            max-width: 1200px;
+            width: 88%;
+            margin: 55px auto;
+        }
+
+        .section-heading {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .section-heading h2 {
+            font-size: 32px;
+            margin-bottom: 12px;
+        }
+
+        .section-heading p {
+            color: #777;
+            line-height: 1.6;
+        }
+
+        /* SEARCH */
+        .search-box {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .search-box input {
+            flex: 1;
+            min-width: 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 9px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        .search-box input:focus {
+            border-color: #5b5ce2;
+        }
+
+        /* CATEGORY BUTTONS */
+        .categories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .category-btn {
+            padding: 10px 18px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 25px;
+            cursor: pointer;
+        }
+
+        .category-btn.active,
+        .category-btn:hover {
+            background: #5b5ce2;
+            color: white;
+            border-color: #5b5ce2;
+        }
+
+        /* CREATOR CARDS */
+        .creator-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .creator-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            border: 1px solid #eee;
+            box-shadow: 0 4px 15px #00000005;
+            transition: 0.3s;
+        }
+
+        .creator-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px #00000010;
+        }
+
+        .creator-top {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 18px;
+        }
+
+        .avatar {
+            width: 65px;
+            height: 65px;
+            flex-shrink: 0;
+            border-radius: 50%;
+            background: #ececff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 32px;
+        }
+
+        .creator-top h3 {
+            margin-bottom: 7px;
+        }
+
+        .creator-top p {
+            color: #777;
+            font-size: 13px;
+        }
+
+        .verified {
+            color: #16874a;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .creator-description {
+            font-size: 14px;
+            line-height: 1.7;
+            color: #666;
+            margin-bottom: 18px;
+        }
+
+        .skills {
+            display: flex;
+            gap: 7px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .skills span {
+            padding: 7px 10px;
+            background: #f0efff;
+            color: #5b5ce2;
+            border-radius: 6px;
+            font-size: 12px;
+        }
+
+        .creator-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .rating {
+            color: #e5a000;
+            font-weight: bold;
+        }
+
+        .price {
+            color: #5b5ce2;
+            font-weight: bold;
+        }
+
+        .creator-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .creator-actions button {
+            flex: 1;
+            padding: 11px 6px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .view-btn {
+            background: white;
+            color: #5b5ce2;
+            border: 1px solid #5b5ce2;
+        }
+
+        .hire-btn {
+            background: #5b5ce2;
+            color: white;
+            border: none;
+        }
+
+        .empty-message {
+            display: none;
+            text-align: center;
+            padding: 30px;
+            color: #777;
+        }
+
+        /* HOW IT WORKS */
+        .how-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .how-card {
+            padding: 30px;
+            text-align: center;
+            background: white;
+            border-radius: 15px;
+        }
+
+        .how-icon {
+            font-size: 38px;
+            margin-bottom: 18px;
+        }
+
+        .how-card h3 {
+            margin-bottom: 12px;
+        }
+
+        .how-card p {
+            color: #777;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        /* PROJECT FORM */
+        .project-section {
+            background: #ededff;
+            padding: 50px 20px;
+            border-radius: 18px;
+        }
+
+        .project-form {
+            max-width: 650px;
+            margin: auto;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: white;
+            font-size: 15px;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .project-message {
+            margin-top: 15px;
+            text-align: center;
+            color: #16874a;
+        }
+
+        /* FOOTER */
+        footer {
+            background: #22243b;
+            color: white;
+            padding: 40px 8%;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        footer p {
+            color: #ccc;
+            margin-top: 12px;
+            line-height: 1.7;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 900px) {
+            .creator-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .hero h1 {
+                font-size: 38px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            nav {
+                padding: 18px 5%;
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+
+            nav a {
+                margin-left: 8px;
+                font-size: 12px;
+            }
+
+            .logo {
+                font-size: 21px;
+            }
+
+            .hero {
+                padding: 50px 6%;
+            }
+
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .hero p {
+                font-size: 15px;
+            }
+
+            .creator-grid,
+            .how-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                width: 92%;
+                margin: 40px auto;
+            }
+
+            .search-box {
+                flex-direction: column;
+            }
+
+            .search-box input {
+                width: 100%;
+            }
+
+            .section-heading h2 {
+                font-size: 27px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVIGATION -->
+    <nav>
+        <div class="logo">✦ CreatorHub AI</div>
+
+        <div>
+            <a href="#home">Home</a>
+            <a href="#creators">Creators</a>
+            <a href="#how">How It Works</a>
+            <a href="#projects" class="login-btn">Post Project</a>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero" id="home">
+
+        <div class="badge">✨ AI-Powered Creator Marketplace</div>
+
+        <h1>
+            Find the Perfect <br>
+            <span>AI Content Creator</span>
+        </h1>
+
+        <p>
+            Connect with talented AI artists, video creators, graphic
+            designers, and content writers to bring your ideas to life.
+        </p>
+
+        <div class="hero-buttons">
+            <a href="#creators">
+                <button class="btn primary">Explore Creators →</button>
+            </a>
+
+            <a href="#projects">
+                <button class="btn secondary">Post a Project</button>
+            </a>
+        </div>
+
+    </section>
+
+    <!-- STATISTICS -->
+    <section class="stats">
+
+        <div class="stat">
+            <h2>500+</h2>
+            <p>AI Creators</p>
+        </div>
+
+        <div class="stat">
+            <h2>1,200+</h2>
+            <p>Projects Completed</p>
+        </div>
+
+        <div class="stat">
+            <h2>50+</h2>
+            <p>Creative Skills</p>
+        </div>
+
+        <div class="stat">
+            <h2>4.9/5</h2>
+            <p>Sample Rating</p>
+        </div>
+
+    </section>
+
+    <!-- CREATORS -->
+    <section class="container" id="creators">
+
+        <div class="section-heading">
+            <h2>Discover AI Creators</h2>
+            <p>Find the right talent for your next creative project.</p>
+        </div>
+
+        <div class="search-box">
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search creator name or skills..."
+            >
+
+            <button class="btn primary" onclick="searchCreators()">
+                Search
+            </button>
+        </div>
+
+        <div class="categories">
+            <button class="category-btn active" data-category="All">
+                All Creators
+            </button>
+
+            <button class="category-btn" data-category="AI Art">
+                AI Art
+            </button>
+
+            <button class="category-btn" data-category="Video Editing">
+                Video Editing
+            </button>
+
+            <button class="category-btn" data-category="Graphic Design">
+                Graphic Design
+            </button>
+
+            <button class="category-btn" data-category="Content Writing">
+                Content Writing
+            </button>
+        </div>
+
+        <div class="creator-grid" id="creatorGrid">
+
+            <!-- CREATOR 1 -->
+            <article class="creator-card"
+                data-name="Rahul Sharma"
+                data-category="AI Art">
+
+                <div class="creator-top">
+                    <div class="avatar">🎨</div>
+
+                    <div>
+                        <h3>Rahul Sharma</h3>
+                        <p>AI Digital Artist</p>
+                        <div class="verified">✓ Sample Profile</div>
+                    </div>
+                </div>
+
+                <p class="creator-description">
+                    Creates unique AI-generated artwork, digital
+                    illustrations, and creative brand visuals.
+                </p>
+
+                <div class="skills">
+                    <span>AI Art</span>
+                    <span>Midjourney</span>
+                    <span>Digital Design</span>
+                </div>
+
+                <div class="creator-details">
+                    <span class="rating">★ 4.9</span>
+                    <span class="price">From ₹1,500</span>
+                </div>
+
+                <div class="creator-actions">
+                    <button class="view-btn"
+                        onclick="viewCreator('Rahul Sharma')">
+                        View Profile
+                    </button>
+
+                    <button class="hire-btn"
+                        onclick="hireCreator('Rahul Sharma')">
+                        Hire
+                    </button>
+                </div>
+            </article>
+
+            <!-- CREATOR 2 -->
+            <article class="creator-card"
+                data-name="Priya Reddy"
+                data-category="Graphic Design">
+
+                <div class="creator-top">
+                    <div class="avatar">🖌️</div>
+
+                    <div>
+                        <h3>Priya Reddy</h3>
+                        <p>Graphic Designer</p>
+                        <div class="verified">✓ Sample Profile</div>
+                    </div>
+                </div>
+
+                <p class="creator-description">
+                    Designs attractive logos, social media posts,
+                    brand identities, and promotional graphics.
+                </p>
+
+                <div class="skills">
+                    <span>Canva</span>
+                    <span>Photoshop</span>
+                    <span>Branding</span>
+                </div>
+
+                <div class="creator-details">
+                    <span class="rating">★ 4.8</span>
+                    <span class="price">From ₹2,000</span>
+                </div>
+
+                <div class="creator-actions">
+                    <button class="view-btn"
+                        onclick="viewCreator('Priya Reddy')">
+                        View Profile
+                    </button>
+
+                    <button class="hire-btn"
+                        onclick="hireCreator('Priya Reddy')">
+                        Hire
+                    </button>
+                </div>
+            </article>
+
+            <!-- CREATOR 3 -->
+            <article class="creator-card"
+                data-name="Arjun Kumar"
+                data-category="Video Editing">
+
+                <div class="creator-top">
+                    <div class="avatar">🎬</div>
+
+                    <div>
+                        <h3>Arjun Kumar</h3>
+                        <p>AI Video Creator</p>
+                        <div class="verified">✓ Sample Profile</div>
+                    </div>
+                </div>
+
+                <p class="creator-description">
+                    Creates promotional videos, YouTube content,
+                    short-form reels, and AI-generated videos.
+                </p>
+
+                <div class="skills">
+                    <span>AI Video</span>
+                    <span>Reels</span>
+                    <span>Editing</span>
+                </div>
+
+                <div class="creator-details">
+                    <span class="rating">★ 4.7</span>
+                    <span class="price">From ₹2,500</span>
+                </div>
+
+                <div class="creator-actions">
+                    <button class="view-btn"
+                        onclick="viewCreator('Arjun Kumar')">
+                        View Profile
+                    </button>
+
+                    <button class="hire-btn"
+                        onclick="hireCreator('Arjun Kumar')">
+                        Hire
+                    </button>
+                </div>
+            </article>
+
+            <!-- CREATOR 4 -->
+            <article class="creator-card"
+                data-name="Sneha Patel"
+                data-category="Content Writing">
+
+                <div class="creator-top">
+                    <div class="avatar">✍️</div>
+
+                    <div>
+                        <h3>Sneha Patel</h3>
+                        <p>AI Content Writer</p>
+                        <div class="verified">✓ Sample Profile</div>
+                    </div>
+                </div>
+
+                <p class="creator-description">
+                    Writes blog posts, product descriptions,
+                    website content, and marketing copy.
+                </p>
+
+                <div class="skills">
+                    <span>Writing</span>
+                    <span>SEO</span>
+                    <span>Copywriting</span>
+                </div>
+
+                <div class="creator-details">
+                    <span class="rating">★ 4.9</span>
+                    <span class="price">From ₹1,000</span>
+                </div>
+
+                <div class="creator-actions">
+                    <button class="view-btn"
+                        onclick="viewCreator('Sneha Patel')">
+                        View Profile
+                    </button>
+
+                    <button class="hire-btn"
+                        onclick="hireCreator('Sneha Patel')">
+                        Hire
+                    </button>
+                </div>
+            </article>
+
+            <!-- CREATOR 5 -->
+            <article class="creator-card"
+                data-name="Vikram Singh"
+                data-category="AI Art">
+
+                <div class="creator-top">
+                    <div class="avatar">🤖</div>
+
+                    <div>
+                        <h3>Vikram Singh</h3>
+                        <p>AI Content Specialist</p>
+                        <div class="verified">✓ Sample Profile</div>
+                    </div>
+                </div>
+
+                <p class="creator-description">
+                    Produces AI images, virtual characters,
+                    product visuals, and digital content.
+                </p>
+
+                <div class="skills">
+                    <span>AI Tools</span>
+                    <span

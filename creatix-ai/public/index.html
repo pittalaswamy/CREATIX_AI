@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Creatix Ai | AI Creator Marketplace</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <header class="navbar">
+        <h2 class="logo">✦ Creatix Ai</h2>
+
+        <nav>
+             <a href="login.html">Login</a>
+
+            <a href="#home">Home</a>
+            <a href="brands.html">Brands</a>
+            <a href="project.html">Project</a>
+
+            <a href="Budget.html">Budget</a>
+            <a href="creator.html">Creators</a>
+        </nav>
+
+        <button class="login-btn" onclick="loginUser()">
+            Login
+        </button>
+    </header>
+
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+
+        <div class="hero-content">
+
+            <span class="tagline">THE FUTURE OF CREATIVE WORK</span>
+
+            <h1>
+                Where Great Ideas<br>
+                Find Their <span>Creators.</span>
+            </h1>
+
+            <p>
+                Connect brands with talented AI creators,
+                discover creative opportunities, manage projects,
+                and estimate budgets in one place.
+            </p>
+
+            <button onclick="showCreators()" class="primary-btn">
+                Explore Creators →
+            </button>
+
+            <button onclick="showBrandForm()" class="secondary-btn">
+                Create Brand Brief
+            </button>
+
+        </div>
+
+        <div class="hero-card floating">
+            <div class="sparkle">✦</div>
+            <h3>Creative Intelligence</h3>
+            <p>Smart creator matching</p>
+            <span class="match">98% Match</span>
+        </div>
+
+    </section>
+
+
+    <!-- Dashboard -->
+    <section class="dashboard" id="dashboard">
+
+        <h2>Your Creative Dashboard</h2>
+
+        <div class="stats">
+
+            <div class="stat-card">
+                <h3>Creators</h3>
+                <h2 id="creatorCount">6</h2>
+                <p>Available talent</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>Active Projects</h3>
+                <h2 id="projectCount">0</h2>
+                <p>Projects created</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>Starting Budget</h3>
+                <h2>₹3,500</h2>
+                <p>Estimated minimum</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>Creator Matching</h3>
+                <h2>AI</h2>
+                <p>Skills-based matching</p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Creator Profiles -->
+    <section class="section" id="creators">
+
+        <h2>Discover AI Creators</h2>
+
+        <p class="section-description">
+            Find creative professionals for your next project.
+        </p>
+
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="Search creators or skills..."
+        >
+
+        <div class="creator-grid" id="creatorList"></div>
+
+    </section>
+
+
+    <!-- Brand Dashboard -->
+    <section class="section brand-section" id="brands">
+
+        <h2>Brand Dashboard</h2>
+
+        <p class="section-description">
+            
