@@ -1,6 +1,6 @@
 # Creatix AI
 
-Creatix AI is a full-stack application designed to help users generate content ideas and create AI-generated content. This project combines a user-friendly frontend with a powerful backend that integrates an AI model for content generation.
+Creatix AI is a small Node.js and Express application for generating content ideas and social media posts with the OpenAI API.
 
 ## Table of Contents
 
@@ -14,47 +14,47 @@ Creatix AI is a full-stack application designed to help users generate content i
 
 ## Features
 
-- User authentication with a login page.
 - Generate content ideas using AI.
 - Create AI-generated content based on user input.
 - Responsive design for a seamless user experience.
+- Serve the frontend and API from the same local server.
+
+The login page is currently a UI mockup; authentication and account creation are not implemented.
 
 ## Technologies
 
 - **Frontend:** HTML, CSS, JavaScript
 - **Backend:** Node.js, Express
-- **AI Integration:** Custom AI model (details in `src/config/ai.js`)
-- **Database:** (Specify if applicable)
+- **AI Integration:** OpenAI Chat Completions API
 - **Environment Variables:** Managed with `.env` file
 
 ## Installation
 
-1. Clone the repository:
+1. Install Node.js.
+2. In PowerShell, navigate to this project directory (the one containing this `package.json`):
+   ```powershell
+   cd "C:\path\to\creatix-ai\creatix-ai"
    ```
-   git clone https://github.com/yourusername/creatix-ai.git
-   ```
-2. Navigate to the project directory:
-   ```
-   cd creatix-ai
-   ```
-3. Install the dependencies:
-   ```
+3. Install dependencies:
+   ```powershell
    npm install
    ```
-4. Create a `.env` file based on the `.env.example` template and fill in the required variables.
+4. Copy `.env.example` to `.env` and set `OPENAI_API_KEY` to your OpenAI API key. Keep the key private and do not commit `.env`.
 
 ## Usage
 
-1. Start the server:
-   ```
-   npm start
-   ```
-2. Open your browser and navigate to `http://localhost:3000` to access the application.
+Run the development server:
+```powershell
+npm run dev
+```
+
+Open `http://localhost:5000`. The server also provides `GET /api/health`; content generation requires a valid OpenAI API key and may incur API charges.
 
 ## API Endpoints
 
-- **POST /api/content/generate-ideas**: Generate content ideas.
-- **POST /api/content/create**: Create AI-generated content.
+- **GET /api/health**: Check that the server is running.
+- **POST /api/content/generate-ideas**: Generate ideas from `{ "topic": "..." }`.
+- **POST /api/content/create-content**: Create a post from `{ "idea": "..." }`.
 
 ## Contributing
 

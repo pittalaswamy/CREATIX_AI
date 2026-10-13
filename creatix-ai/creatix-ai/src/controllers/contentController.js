@@ -1,26 +1,37 @@
 class ContentController {
-    constructor(aiService) {
-        this.aiService = aiService;
+  constructor(aiService) {
+    this.aiService = aiService;
+  }
+
+  async generateContentIdeas(req, res) {
+    const { topic } = req.body;
+    if (typeof topic !== 'string' || !topic.trim()) {
+      return res.status(400).json({ message: 'Enter a topic to generate ideas.' });
     }
 
-    async generateContentIdeas(req, res) {
-        try {
-            const ideas = await this.aiService.fetchContentIdeas();
-            res.status(200).json({ ideas });
-        } catch (error) {
-            res.status(500).json({ message: 'Error generating content ideas', error: error.message });
-        }
+    try {
+      const ideas = await this.aiService.fetchContentIdeas(topic.trim());
+      return res.status(200).json({ ideas });
+    } catch (error) {
+      console.error('Content idea generation failed:', error);
+      return res.status(error.statusCode || 502).json({ message: error.message });
+    }
+  }
+
+  async createContent(req, res) {
+    const { idea } = req.body;
+    if (typeof idea !== 'string' || !idea.trim()) {
+      return res.status(400).json({ message: 'Choose an idea to create content.' });
     }
 
-    async createContent(req, res) {
-        const { idea } = req.body;
-        try {
-            const content = await this.aiService.generateContent(idea);
-            res.status(200).json({ content });
-        } catch (error) {
-            res.status(500).json({ message: 'Error creating content', error: error.message });
-        }
+    try {
+      const content = await this.aiService.generateContent(idea.trim());
+      return res.status(200).json({ content });
+    } catch (error) {
+      console.error('Content generation failed:', error);
+      return res.status(error.statusCode || 502).json({ message: error.message });
     }
+  }
 }
 
-export default ContentController;
+module.exports = ContentController;

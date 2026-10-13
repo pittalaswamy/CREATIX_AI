@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Creovate AI Marketplace</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f5f3ff;
+  color: #22223b;
+}
+
+header {
+  background: white;
+  padding: 18px 6%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 10px #0000000d;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: #6c4cf1;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 18px;
+  font-weight: bold;
+}
+
+.budget-btn, .apply-btn {
+  background: #6c4cf1;
+  color: white;
+}
+
+main {
+  max-width: 900px;
+  margin: 35px auto;
+  padding: 20px;
+}
+
+h1 {
+  font-size: 32px;
+}
+
+p {
+  color: #77758c;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 18px;
+  margin-top: 25px;
+}
+
+.card {
+  background: white;
+  padding: 22px;
+  border-radius: 16px;
+  box-shadow: 0 5px 20px #00000008;
+}
+
+.card h3 {
+  margin-bottom: 8px;
+}
+
+.price {
+  font-size: 22px;
+  color: #6c4cf1;
+  font-weight: bold;
+}
+
+#budgetInterface {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: #17152b99;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+}
+
+.modal {
+  background: white;
+  width: 100%;
+  max-width: 460px;
+  padding: 25px;
+  border-radius: 20px;
+}
+
+.modal-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.close-btn {
+  background: #eeeafa;
+  font-size: 20px;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  margin: 20px 0 8px;
+}
+
+input, select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd8ef;
+  border-radius: 9px;
+  font-size: 16px;
+}
+
+.summary {
+  background: #f4f0ff;
+  border-radius: 12px;
+  padding: 15px;
+  margin-top: 20px;
+}
+
+.summary p {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.total {
+  border-top: 1px solid #ddd5ff;
+  padding-top: 12px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #6c4cf1;
+}
+
+#message {
+  font-size: 14px;
+}
+
+.apply-btn {
+  width: 100%;
+  margin-top: 15px;
+}
+
+@media (max-width: 500px) {
+  h1 { font-size: 27px; }
+  main { margin-top: 20px; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">✦ Creatix AI</div>
+  <button class="budget-btn" onclick="openBudget()">
+    ₹ Budget
+  </button>
+</header>
+
+<main>
+  <h1>Find Your AI Creator Here</h1>
+  <p>Discover creators and plan your content campaign.</p>
+
+  <button class="budget-btn" onclick="openBudget()">
+    + Create  your Campaign Budget
+  </button>
+
+  <div class="cards">
+    <div class="card">
+      <h3>🎬 AI Video Creator</h3>
+      <p>Videos, Instagram Reels and ads</p>
+      <div class="price">₹4,500</div>
+      <p>Starting price per deliverable</p>
+      <button onclick="selectCreator('video')">Select Creator</button>
+    </div>
+
+    <div class="card">
+      <h3>🎨 AI Designer</h3>
+      <p>Product designs and advertisements</p>
+      <div class="price">₹8,500</div>
+      <p>Starting price per deliverable</p>
+      <button onclick="selectCreator('design')">Select Creator</button>
+    </div>
+
+    <div class="card">
+      <h3>✍️ AI Content Creator</h3>
+      <p>Social media content and ad copy</p>
+      <div class="price">₹3,000</div>
+      <p>Starting price per deliverable</p>
+      <button onclick="selectCreator('content')">Select Creator</button>
+    </div>
+  </div>
+
+  <h2>Your Campaign Budget</h2>
+  <p id="savedBudget">No budget applied yet.</p>
+</main>
+
+<div id="budgetInterface">
+  <div class="modal">
+    <div class="modal-top">
+      <h2>Campaign Budget</h2>
+      <button class="close-btn" onclick="closeBudget()">×</button>
+    </div>
+
+    <p>Plan your AI content creation budget.</p>
+
+    <label for="budget">Your Budget (₹)</label>
+    <input id="budget" type="number" min="1000"
+      value="25000" oninput="calculate()">
+
+    <label for="type">Content Type</label>
+    <select id="type" onchange="calculate()">
+      <option value="video">AI Video — ₹4,500 each</option>
+      <option value="design">AI Design — ₹8,500 each</option>
+      <option value="content">AI Content — ₹3,000 each</option>
+    </select>
+
+    <label for="quantity">Number of Deliverables</label>
+    <select id="quantity" onchange="calculate()">
+      <option value="1">1 deliverable</option>
+      <option value="3" selected>3 deliverables</option>
+      <option value="5">5 deliverables</option>
+      <option value="10">10 deliverables</option>
+    </select>
+
+    <div class="summary">
+      <p>
+        <span>Creator Cost</span>
+        <strong id="creatorCost">₹13,500</strong>
+      </p>
+      <p>
+        <span>10% Extra Buffer</span>
+        <strong id="buffer">₹1,350</strong>
+      </p>
+      <p class="total">
+        <span>Total Estimate</span>
+        <span id="total">₹14,850</span>
+      </p>
+      <div id="message">This plan fits your budget.</div>
+    </div>
+
+    <button class="apply-btn" onclick="applyBudget()">
+      Apply Budget
+    </button>
+  </div>
+</div>
+
+<script>
+const rates = {
+  video: 4500,
+  design: 8500,
+  content: 3000
+};
+
+function money(amount) {
+  return "₹" + Math.round(amount).toLocaleString("en-IN");
+}
+
+function openBudget() {
+  document.getElementById("budgetInterface").style.display = "flex";
+  calculate();
+}
+
+function closeBudget() {
+  document.getElementById("budgetInterface").style.display = "none";
+}
+
+function selectCreator(type) {
+  document.getElementById("type").value = type;
+  openBudget();
+}
+
+function calculate() {
+  const budget = Math.max(
+    0,
+    Number(document.getElementById("budget").value) || 0
+  );
+
+  const type = document.getElementById("type").value;
+  const quantity = Number(document.getElementById("quantity").value);
+
+  const creatorCost = rates[type] * quantity;
+  const buffer = Math.round(creatorCost * 0.10);
+  const total = creatorCost + buffer;
+
+  document.getElementById("creatorCost").textContent =
+    money(creatorCost);
+
+  document.getElementById("buffer").textContent =
+    money(buffer);
+
+  document.getElementById("total").textContent =
+    money(total);
+
+  const message = document.getElementById("message");
+
+  if (total <= budget) {
+    message.textContent = "✅ Your campaign fits your budget!";
+    message.style.color = "green";
+  } else {
+    message.textContent =
+      "⚠️ Over budget by " + money(total - budget) +
+      ". Reduce deliverables or increase your budget.";
+    message.style.color = "#b45309";
+  }
+}
+
+function applyBudget() {
+  const budget = Number(document.getElementById("budget").value);
+
+  if (!Number.isFinite(budget) || budget < 1000) {
+    alert("Please enter a budget of at least ₹1,000.");
+    return;
+  }
+
+  document.getElementById("savedBudget").textContent =
+    "Your selected budget: " + money(budget);
+
+  closeBudget();
+}
+</script>
+
+</body>
+</html>
