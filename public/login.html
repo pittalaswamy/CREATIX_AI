@@ -151,7 +151,7 @@
     <form id="loginForm">
 
       <label for="email">Email Address</label>
-      <input type="type" id="email"
+      <input type="email" id="email"
              placeholder="Enter your email" required>
 
       <label for="password">Password</label>
@@ -213,33 +213,5 @@
           "Create Account page needs to be built.";
       });
   </script>
-  <script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-analytics.js";
-  import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
-  const email=document.getElementById("email");
-  const password=document.getElementById("password");
-
-
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyA4Xm4CIxc0ACtFrg5rRHdY2Obdm39m7uo",
-    authDomain: "login-20ba4.firebaseapp.com",
-    projectId: "login-20ba4",
-    storageBucket: "login-20ba4.firebasestorage.app",
-    messagingSenderId: "472608911910",
-    appId: "1:472608911910:web:c1110e45baec1b2489ece7",
-    measurementId: "G-Z6MZ3WHYCB"
-  };
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-</script>
-
 </body>
 </html>

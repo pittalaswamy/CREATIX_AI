@@ -497,7 +497,9 @@
             <a href="#home">Home</a>
             <a href="#creators">Creators</a>
             <a href="#how">How It Works</a>
-            <a href="#projects" class="login-btn">Post Project</a>
+            <a href="Budget.html">Budget</a>
+            <a href="login.html">Login</a>
+            <a href="index.html#brands" class="login-btn">Post Project</a>
         </div>
     </nav>
 
@@ -521,7 +523,7 @@
                 <button class="btn primary">Explore Creators →</button>
             </a>
 
-            <a href="#projects">
+            <a href="index.html#brands">
                 <button class="btn secondary">Post a Project</button>
             </a>
         </div>
@@ -618,7 +620,7 @@
                 </p>
 
                 <div class="skills">
-                    <span>AI Art</span>
+AI Art</span>
                     <span>Midjourney</span>
                     <span>Digital Design</span>
                 </div>
@@ -795,4 +797,47 @@
 
                 <div class="skills">
                     <span>AI Tools</span>
-                    <span
+                    <span>Product Visuals</span>
+                    <span>Digital Content</span>
+                </div>
+
+                <div class="creator-details">
+                    <span class="rating">★ 4.8</span>
+                    <span class="price">From ₹2,000</span>
+                </div>
+
+                <div class="creator-actions">
+                    <button class="view-btn"
+                        onclick="viewCreator('Vikram Singh')">
+                        View Profile
+                    </button>
+
+                    <button class="hire-btn"
+                        onclick="hireCreator('Vikram Singh')">
+                        Hire
+                    </button>
+                </div>
+            </article>
+        </div>
+
+        <p class="no-results" id="noResults" hidden>
+            No creators found. Try another search or category.
+        </p>
+    </section>
+
+    <section class="container" id="how">
+        <h2>How It Works</h2>
+        <p>Explore creators, choose a specialist, and post a project brief.</p>
+        <a class="btn primary" href="Budget.html">Plan a campaign budget</a>
+    </section>
+
+    <footer class="container" id="contact">
+        <a href="index.html">Home</a>
+        <a href="creator.html">Creator directory</a>
+        <a href="Budget.html">Budget planner</a>
+        <a href="login.html">Login</a>
+    </footer>
+
+    <script src="project-page.js"></script>
+</body>
+</html>

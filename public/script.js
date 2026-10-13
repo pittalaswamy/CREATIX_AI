@@ -68,8 +68,6 @@ const creators = [
 ];
 
 
-// Store projects in the browser
-
 let projects = [];
 
 
@@ -326,7 +324,7 @@ function findMatchingCreators(brief) {
 // Project Management
 // ======================================
 
-function createProject(creatorId, budget = null) {
+async function createProject(creatorId, budget = null) {
 
     const creator = creators.find(c => c.id === creatorId);
 
@@ -347,24 +345,26 @@ function createProject(creatorId, budget = null) {
             ? creator.price
             : Number(budget);
 
-    const project = {
-        id: Date.now(),
+    const projectDetails = {
         title: title.trim(),
         creator: creator.name,
-        budget: projectBudget,
-        status: "Planning"
+        budget: projectBudget
     };
 
-    projects.push(project);
-
-    saveProjects();
-
-    displayProjects();
-
-    document.getElementById("projects")
-        .scrollIntoView({ behavior: "smooth" });
-
-    alert("Project created successfully!");
+    try {
+        const project = await requestProjectApi("/api/projects", {
+            method: "POST",
+            body: JSON.stringify(projectDetails)
+        });
+        projects.unshift(project);
+        displayProjects();
+        document.getElementById("projects")
+            .scrollIntoView({ behavior: "smooth" });
+        alert("Project created successfully!");
+    } catch (error) {
+        console.error("Could not create project.", error);
+        alert("Could not create project: " + error.message);
+    }
 
 }
 
@@ -386,50 +386,42 @@ function displayProjects() {
 
         card.className = "project-card";
 
-        card.innerHTML = `
-            <h3>${project.title}</h3>
+        const title = document.createElement("h3");
+        title.textContent = project.title;
+        card.appendChild(title);
 
-            <p>
-                Creator: ${project.creator}
-            </p>
+        const creator = document.createElement("p");
+        creator.textContent = "Creator: " + project.creator;
+        card.appendChild(creator);
 
-            <p>
-                Budget: ${formatMoney(project.budget)}
-            </p>
+        const budget = document.createElement("p");
+        budget.textContent = "Budget: " + formatMoney(project.budget);
+        card.appendChild(budget);
 
-            <p>
-                Status:
-                <span class="status-label">
-                    ${project.status}
-                </span>
-            </p>
+        const status = document.createElement("p");
+        status.append("Status: ");
+        const statusLabel = document.createElement("span");
+        statusLabel.className = "status-label";
+        statusLabel.textContent = project.status;
+        status.appendChild(statusLabel);
+        card.appendChild(status);
 
-            <label>Update Status</label>
+        const label = document.createElement("label");
+        label.textContent = "Update Status";
+        card.appendChild(label);
 
-            <select
-                onchange="updateProjectStatus(
-                    ${project.id},
-                    this.value
-                )">
-
-                <option ${project.status === "Planning" ? "selected" : ""}>
-                    Planning
-                </option>
-
-                <option ${project.status === "In Progress" ? "selected" : ""}>
-                    In Progress
-                </option>
-
-                <option ${project.status === "Review" ? "selected" : ""}>
-                    Review
-                </option>
-
-                <option ${project.status === "Delivered" ? "selected" : ""}>
-                    Delivered
-                </option>
-
-            </select>
-        `;
+        const select = document.createElement("select");
+        ["Planning", "In Progress", "Review", "Delivered"].forEach(value => {
+            const option = document.createElement("option");
+            option.value = value;
+            option.textContent = value;
+            option.selected = project.status === value;
+            select.appendChild(option);
+        });
+        select.addEventListener("change", () => {
+            updateProjectStatus(project.id, select.value);
+        });
+        card.appendChild(select);
 
         projectList.appendChild(card);
 
@@ -445,7 +437,7 @@ function displayProjects() {
 // Update Project Status
 // ======================================
 
-function updateProjectStatus(projectId, newStatus) {
+async function updateProjectStatus(projectId, newStatus) {
 
     const project = projects.find(p => p.id === projectId);
 
@@ -453,68 +445,57 @@ function updateProjectStatus(projectId, newStatus) {
         return;
     }
 
-    project.status = newStatus;
-
-    saveProjects();
-
-    displayProjects();
-
-}
-
-
-// ======================================
-// Save Projects to Browser Storage
-// ======================================
-
-function saveProjects() {
-
     try {
-
-        localStorage.setItem(
-            "creatorOrbitProjects",
-            JSON.stringify(projects)
-        );
-
-    } catch (error) {
-
-        console.error("Could not save projects.", error);
-
-    }
-
-}
-
-
-// ======================================
-// Load Saved Projects
-// ======================================
-
-function loadProjects() {
-
-    try {
-
-        const savedProjects =
-            localStorage.getItem("creatorOrbitProjects");
-
-        if (savedProjects) {
-
-            const parsed = JSON.parse(savedProjects);
-
-            if (Array.isArray(parsed)) {
-                projects = parsed;
+        const updatedProject = await requestProjectApi(
+            "/api/projects/" + encodeURIComponent(projectId),
+            {
+                method: "PATCH",
+                body: JSON.stringify({ status: newStatus })
             }
-
-        }
-
+        );
+        projects = projects.map(item =>
+            item.id === updatedProject.id ? updatedProject : item
+        );
+        displayProjects();
     } catch (error) {
-
-        projects = [];
-
-        console.error("Could not load projects.", error);
-
+        console.error("Could not update project status.", error);
+        alert("Could not update project status: " + error.message);
+        displayProjects();
     }
-
 }
 
+
+// ======================================
+// Load Projects from the API
+// ======================================
+
+async function loadProjects() {
+    try {
+        projects = await requestProjectApi("/api/projects");
+        displayProjects();
+    } catch (error) {
+        console.error("Could not load projects.", error);
+        document.getElementById("projectList").textContent =
+            "Projects could not be loaded: " + error.message;
+    }
+}
+
+async function requestProjectApi(url, options = {}) {
+    const response = await fetch(url, {
+        ...options,
+        headers: {
+            "Content-Type": "application/json",
+            ...options.headers
+        }
+    });
+    const result = await response.json();
+
+    if (!response.ok) {
+        throw new Error(result.message || "The request failed.");
+    }
+
+    return result;
+}
 
 // ======================================
 // Smart Budget Estimator
@@ -607,5 +588,3 @@ function loginUser() {
 loadProjects();
 
 displayCreators();
-
-displayProjects();
